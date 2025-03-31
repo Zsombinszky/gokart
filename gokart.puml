@@ -1,0 +1,202 @@
+@startuml GokartRacingSystem
+
+!include <tupadr3/common>
+!include <tupadr3/font-awesome/users>
+
+skinparam class {
+    BackgroundColor White
+    ArrowColor #0078D7
+    BorderColor #0078D7
+}
+
+' Enums
+enum GokartType {
+    Small
+    Big
+}
+
+enum SkillLevel {
+    Beginner
+    Intermediate
+    Advanced
+    Pro
+}
+
+enum Color {
+    Black
+    Silver
+    Pink
+    Yellow
+    Green
+    Orange
+    Purple
+    Red
+    Blue
+    Gold
+}
+
+enum EngineType {
+    Gasoline
+    Electric
+    Hybrid
+}
+
+enum MapDifficulty {
+    Beginner
+    Intermediate
+    Pro
+}
+
+' Abstract classes
+abstract class Guest {
+    +{abstract} ~Guest()
+    +{abstract} canDrive(GokartType) : bool
+    +{abstract} somePureVirtual() : void
+    +getFullName() : string
+    +getAge() : int
+    +getSkillLevel() : SkillLevel
+    +setHasMaskOn(bool) : void
+    +setHasHelmetOn(bool) : void
+    __
+    #skillLevel: SkillLevel
+    #age: int
+}
+
+abstract class Gokart {
+    +{abstract} ~Gokart()
+    +{abstract} performMaintenance() : void
+    +{abstract} getSpecialFeatures() : string
+    +getSerialNumber() : string
+    +getType() : GokartType
+    __
+    #serialNumber: string
+    #maxSpeed: int
+    #type: GokartType
+}
+
+abstract class Map {
+    +{abstract} ~Map()
+    +{abstract} getCheckpoints() : vector<string>
+    +getName() : string
+    +getMaxRacers() : int
+    __
+    #_name: string
+    #_difficulty: MapDifficulty
+    #_maxRacers: int
+}
+
+' Concrete classes
+class ChildGuest {
+    +canDrive(GokartType) : bool
+    +getFavouriteColor() : Color
+    +setFavouriteColor(Color) : void
+    __
+    -favouriteColor: Color
+    -MIN_AGE: int = 5
+    -MAX_AGE: int = 12
+}
+
+class AdultGuest {
+    +canDrive(GokartType) : bool
+    __
+    -MIN_AGE: int = 18
+    -MAX_AGE: int = 70
+}
+
+class SmallGokart {
+    +performMaintenance() : void
+    +getSpecialFeatures() : string
+    +hasFluffySteeringWheel() : bool
+    __
+    -_hasExtraFoamProtection: bool
+    -_hasFluffySteeringWheel: bool
+}
+
+class BigGokart {
+    +performMaintenance() : void
+    +getSpecialFeatures() : string
+    +hasRollCage() : bool
+    __
+    -_enginePower: int
+    -_hasRollCage: bool
+    -_engineType: EngineType
+}
+
+class RaceGokart {
+    +performMaintenance() : void
+    +getSpecialFeatures() : string
+    +hasTurboBoost() : bool
+    __
+    -_hasTurboBoost: bool
+    -_hasOvertakeSign: bool
+}
+
+class BeginnerMap {
+    +getCheckpoints() : vector<string>
+    +hasSafetyBarriers() : bool
+    __
+    -_hasSafetyBarriers: bool
+    -_maxSpeedLimit: int
+}
+
+class IntermediateMap {
+    +getCheckpoints() : vector<string>
+    +getObstacleCount() : int
+    __
+    -_obstacleCount: int
+    -_hasShortcuts: bool
+}
+
+class ProMap {
+    +getCheckpoints() : vector<string>
+    +isNightMode() : bool
+    __
+    -_nightMode: bool
+    -_dynamicWeather: bool
+}
+
+class Race {
+    +startRace() : void
+    +addRacer(Guest) : void
+    +assignGokart(Guest, GokartType) : bool
+    __
+    -_map: shared_ptr<Map>
+    -_racers: vector<shared_ptr<Guest>>
+    -_availableGokarts: vector<shared_ptr<Gokart>>
+    -_assignments: map<Guest, Gokart>
+}
+
+class TrackLead {
+    +createGroupBySkill() : vector<shared_ptr<Guest>>
+    +validateGuest(Guest) : bool
+    __
+    -_name: string
+    -_hasAidkit: bool
+}
+
+' Inheritance relationships
+Guest <|-- ChildGuest
+Guest <|-- AdultGuest
+
+Gokart <|-- SmallGokart
+Gokart <|-- BigGokart
+BigGokart <|-- RaceGokart
+
+Map <|-- BeginnerMap
+Map <|-- IntermediateMap
+Map <|-- ProMap
+
+' Composition/Association relationships
+Race "1" *-- "1" Map
+Race "1" *-- "1" TrackLead
+Race "1" *-- "*" Guest
+Race "1" *-- "*" Gokart
+
+TrackLead ..> Guest : uses
+
+' Notes
+note top of Guest: Abstract base class\nfor all guest types
+note top of Gokart: Abstract base class\nfor all gokart types
+note top of Map: Abstract base class\nfor all map types
+
+@enduml
