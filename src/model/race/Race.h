@@ -33,6 +33,8 @@ public:
 
     void startRace();
 
+    void finishRace();
+
     void addRacer(std::shared_ptr<Guest> racer);
 
     void removeRacer(const std::string &name);

@@ -3,7 +3,7 @@
 #include "BigGokart.h"
 
 void BigGokart::performMaintenance() {
-    _enginePower = 15;
+    _enginePower = BASE_BIGGOKART_POWER;
     _hasRollCage = true;
     _hasSportMode = true;
 
@@ -23,15 +23,15 @@ std::string BigGokart::getSpecialFeatures() const {
     return oss.str();
 }
 
-bool BigGokart::hasRollCage() const {
+bool BigGokart::hasRollCage() const noexcept {
     return _hasRollCage;
 }
 
-bool BigGokart::hasSportMode() const {
+bool BigGokart::hasSportMode() const noexcept {
     return _hasSportMode;
 }
 
-EngineType BigGokart::getEngineType() const {
+EngineType BigGokart::getEngineType() const noexcept {
     return _engineType;
 }
 
@@ -44,9 +44,10 @@ void BigGokart::setRollCage(bool has) {
 }
 
 void BigGokart::setEnginePower(int power) {
-    if (power > 0) {
-        _enginePower = power;
+    if (power <= 0) {
+        throw std::invalid_argument("Engine power must be positive");
     }
+    _enginePower = power;
 }
 
 void BigGokart::setSportMode(bool sport) {

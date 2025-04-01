@@ -30,9 +30,7 @@ protected:
 public:
     Guest(std::string fullName, std::string nickName, int age, int heightInCentimeter, SkillLevel skillLevel);
 
-    virtual void somePureVirtual() = 0;
-
-    [[nodiscard]] virtual bool canDrive(GokartType type) const = 0;  // Pure virtual
+    [[nodiscard]] virtual bool canDrive(GokartType type) const = 0;
 
     [[nodiscard]] const std::string &getFullName() const;
 

@@ -16,11 +16,11 @@ public:
     TrackLead(std::string name, bool aidKit = true, bool threeFlag = true)
             : _name(std::move(name)), _hasAidkit(aidKit), _hasThreeFlag(threeFlag) {}
 
-    [[nodiscard]] std::string getName() const { return _name; }
+    [[nodiscard]] std::string getName() const noexcept { return _name; }
 
-    [[nodiscard]] bool hasAidKit() const { return _hasAidkit; }
+    [[nodiscard]] bool hasAidKit() const noexcept { return _hasAidkit; }
 
-    [[nodiscard]] bool hasThreeFlag() const { return _hasThreeFlag; }
+    [[nodiscard]] bool hasThreeFlag() const noexcept { return _hasThreeFlag; }
 
     void setAidKit(bool has) { _hasAidkit = has; }
 
@@ -35,7 +35,7 @@ public:
     [[nodiscard]] static std::vector<std::shared_ptr<Guest>>
     createGroupByMaxSpeed(const std::vector<std::shared_ptr<Guest>> &guests, int minAge, int maxAge, int groupSize);
 
-    bool static validateGuest(const std::shared_ptr<Guest> &guest);
+    bool static validateGuest(const std::shared_ptr<Guest> &guest) noexcept;
 
 };
 

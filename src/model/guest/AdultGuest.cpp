@@ -1,18 +1,17 @@
 #include "AdultGuest.h"
 
-AdultGuest::AdultGuest(std::string fullName, std::string nickName, int age, int height, SkillLevel skill) : Guest(
-        std::move(fullName), std::move(nickName),
+AdultGuest::AdultGuest(std::string fullName, std::string nickName, int age, int height,
+                       SkillLevel skill) : Guest(
+        std::move(fullName),
+        std::move(nickName),
         validateAge(age),
-        validateHeight(height), skill) {}
-
-void AdultGuest::somePureVirtual() {
-
-}
+        validateHeight(height),
+        skill) {}
 
 bool AdultGuest::canDrive(GokartType type) const {
     switch (type) {
         case GokartType::Small:
-            return this->getHeightInCentimeter() < 150;
+            return this->getHeightInCentimeter() < MAX_HEIGHT_FOR_SMALL_KART;
         case GokartType::Big:
             return true;
         case GokartType::Race:

@@ -6,10 +6,12 @@
 
 class Gokart {
 protected:
+    static constexpr int DEFAULT_WHEEL_COUNT = 4;
+
     std::string serialNumber;
     int maxSpeed;
     GokartType type;
-    int numberOfWheels = 4;
+    int numberOfWheels = DEFAULT_WHEEL_COUNT;
 
 public:
     Gokart(std::string serial, int speed, GokartType type)
@@ -21,8 +23,7 @@ public:
 
     [[nodiscard]] virtual std::string getSpecialFeatures() const = 0;
 
-    // Common methods
-    [[nodiscard]] std::string getSerialNumber() const { return serialNumber; }
+    [[nodiscard]] std::string getSerialNumber() const noexcept { return serialNumber; }
 
     [[nodiscard]] int getMaxSpeed() const { return maxSpeed; }
 

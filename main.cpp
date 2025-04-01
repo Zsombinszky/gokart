@@ -99,7 +99,7 @@ void runSimulationForChildGuestsAndBeginnerMap() {
 
         std::cout << "\nBeginner Group Members:" << std::endl;
         for (const auto &guest: beginnerGroup) {
-            std::cout << "- " << guest->getFullName()
+            std::cout << "- " << guest->getNickName()
                       << " (Age: " << guest->getAge()
                       << ", Skill: " << toString(guest->getSkillLevel()) << ")" << std::endl;
 

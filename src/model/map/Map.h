@@ -19,11 +19,11 @@ public:
 
     [[nodiscard]] virtual std::vector<std::string> getCheckpoints() const = 0;
 
-    [[nodiscard]] std::string getName() const { return _name; }
+    [[nodiscard]] std::string getName() const noexcept { return _name; }
 
-    [[nodiscard]] MapDifficulty getDifficulty() const { return _difficulty; }
+    [[nodiscard]] MapDifficulty getDifficulty() const noexcept { return _difficulty; }
 
-    [[nodiscard]] int getMaxRacers() const { return _maxRacers; }
+    [[nodiscard]] int getMaxRacers() const noexcept { return _maxRacers; }
 };
 
 #endif // GOKART_MAP_H

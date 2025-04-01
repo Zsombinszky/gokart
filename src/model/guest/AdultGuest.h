@@ -11,8 +11,6 @@ public:
 
     [[nodiscard]] bool canDrive(GokartType type) const override;
 
-    void somePureVirtual() override;
-
 protected:
     [[nodiscard]] int validateAge(int age) const override;
 
@@ -23,6 +21,7 @@ private:
     static constexpr int MAX_AGE = 70;
     static constexpr int MIN_HEIGHT = 140;
     static constexpr int MAX_HEIGHT = 200;
+    static constexpr int MAX_HEIGHT_FOR_SMALL_KART = 150;
 };
 
 

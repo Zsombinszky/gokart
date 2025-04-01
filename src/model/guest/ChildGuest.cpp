@@ -8,8 +8,6 @@ ChildGuest::ChildGuest(std::string fullName, std::string nickName, int age,
                 validateHeight(height),
                 skill), favouriteColor(favColor) {}
 
-void ChildGuest::somePureVirtual() {
-}
 
 bool ChildGuest::canDrive(GokartType type) const {
     switch (type) {
@@ -18,7 +16,7 @@ bool ChildGuest::canDrive(GokartType type) const {
         case GokartType::Big:
             return (skillLevel == SkillLevel::Advanced ||
                     skillLevel == SkillLevel::Pro) &&
-                   age >= 10;
+                   age >= MIN_AGE_FOR_BIG_KART;
         case GokartType::Race:
             return false;
         default:
@@ -48,10 +46,10 @@ int ChildGuest::validateHeight(int height) const {
     return height;
 }
 
-void ChildGuest::setFavouriteColor(Color favouriteColor) {
+void ChildGuest::setFavouriteColor(Color favouriteColor) noexcept {
     ChildGuest::favouriteColor = favouriteColor;
 }
 
-Color ChildGuest::getFavouriteColor() const {
+Color ChildGuest::getFavouriteColor() const noexcept {
     return favouriteColor;
 }

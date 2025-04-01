@@ -29,19 +29,19 @@ std::string SmallGokart::getSpecialFeatures() const {
     return features.str();
 }
 
-bool SmallGokart::hasFluffySteeringWheel() const {
+bool SmallGokart::hasFluffySteeringWheel() const noexcept {
     return _hasFluffySteeringWheel;
 }
 
-bool SmallGokart::hasFunnyHonk() const {
+bool SmallGokart::hasFunnyHonk() const noexcept {
     return _hasFunnyHonk;
 }
 
-bool SmallGokart::hasExtraFoamProtection() const {
+bool SmallGokart::hasExtraFoamProtection() const noexcept {
     return _hasExtraFoamProtection;
 }
 
-bool SmallGokart::hasSafetyFlag() const {
+bool SmallGokart::hasSafetyFlag() const noexcept {
     return _hasSafetyFlag;
 }
 

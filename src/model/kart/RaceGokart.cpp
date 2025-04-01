@@ -8,7 +8,7 @@ RaceGokart::RaceGokart(std::string serial, int speed, int power, bool sportMode,
           _hasTurboBoost(turboBoost), _hasOvertakeSign(overtakeSign) {}
 
 void RaceGokart::performMaintenance() {
-    BigGokart::performMaintenance();  // First do base maintenance
+    BigGokart::performMaintenance();
     _hasTurboBoost = true;
     _hasOvertakeSign = true;
     std::cout << "Race features reset\n";
@@ -22,9 +22,9 @@ std::string RaceGokart::getSpecialFeatures() const {
     return oss.str();
 }
 
-bool RaceGokart::hasTurboBoost() const { return _hasTurboBoost; }
+bool RaceGokart::hasTurboBoost() const noexcept { return _hasTurboBoost; }
 
-bool RaceGokart::hasOvertakeSign() const { return _hasOvertakeSign; }
+bool RaceGokart::hasOvertakeSign() const noexcept { return _hasOvertakeSign; }
 
 void RaceGokart::setTurboBoost(bool has) { _hasTurboBoost = has; }
 

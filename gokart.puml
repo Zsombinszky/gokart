@@ -13,6 +13,7 @@ skinparam class {
 enum GokartType {
     Small
     Big
+    Race
 }
 
 enum SkillLevel {
@@ -107,18 +108,24 @@ class SmallGokart {
     +performMaintenance() : void
     +getSpecialFeatures() : string
     +hasFluffySteeringWheel() : bool
+    +hasFunnyHonk() : bool
+    +hasSafetyFlag() : bool
     __
     -_hasExtraFoamProtection: bool
     -_hasFluffySteeringWheel: bool
+    -_hasFunnyHonk: bool
+    -_hasSafetyFlag: bool
 }
 
 class BigGokart {
     +performMaintenance() : void
     +getSpecialFeatures() : string
     +hasRollCage() : bool
+    +hasSportMode() : bool
     __
     -_enginePower: int
     -_hasRollCage: bool
+    -_hasSportMode: bool
     -_engineType: EngineType
 }
 
@@ -126,6 +133,7 @@ class RaceGokart {
     +performMaintenance() : void
     +getSpecialFeatures() : string
     +hasTurboBoost() : bool
+    +hasOvertakeSign() : bool
     __
     -_hasTurboBoost: bool
     -_hasOvertakeSign: bool
@@ -134,6 +142,7 @@ class RaceGokart {
 class BeginnerMap {
     +getCheckpoints() : vector<string>
     +hasSafetyBarriers() : bool
+    +getMaxSpeedLimit() : int
     __
     -_hasSafetyBarriers: bool
     -_maxSpeedLimit: int
@@ -142,6 +151,7 @@ class BeginnerMap {
 class IntermediateMap {
     +getCheckpoints() : vector<string>
     +getObstacleCount() : int
+    +hasShortcuts() : bool
     __
     -_obstacleCount: int
     -_hasShortcuts: bool
@@ -150,6 +160,7 @@ class IntermediateMap {
 class ProMap {
     +getCheckpoints() : vector<string>
     +isNightMode() : bool
+    +hasDynamicWeather() : bool
     __
     -_nightMode: bool
     -_dynamicWeather: bool
@@ -157,21 +168,29 @@ class ProMap {
 
 class Race {
     +startRace() : void
+    +finishRace() : void
     +addRacer(Guest) : void
     +assignGokart(Guest, GokartType) : bool
+    +performMaintenanceOnAllGokarts() : void
     __
     -_map: shared_ptr<Map>
     -_racers: vector<shared_ptr<Guest>>
+    -_validatedGroup: vector<shared_ptr<Guest>>
     -_availableGokarts: vector<shared_ptr<Gokart>>
-    -_assignments: map<Guest, Gokart>
+    -_assignments: map<shared_ptr<Guest>, shared_ptr<Gokart>>
+    -_trackLead: TrackLead
+    -_isStarted: bool
 }
 
 class TrackLead {
     +createGroupBySkill() : vector<shared_ptr<Guest>>
+    +createGroupByAgeRange() : vector<shared_ptr<Guest>>
+    +createGroupByMaxSpeed() : vector<shared_ptr<Guest>>
     +validateGuest(Guest) : bool
     __
     -_name: string
     -_hasAidkit: bool
+    -_hasThreeFlag: bool
 }
 
 ' Inheritance relationships
@@ -186,17 +205,18 @@ Map <|-- BeginnerMap
 Map <|-- IntermediateMap
 Map <|-- ProMap
 
-' Composition/Association relationships
+' Relationships
 Race "1" *-- "1" Map
 Race "1" *-- "1" TrackLead
-Race "1" *-- "*" Guest
-Race "1" *-- "*" Gokart
+Race "1" o-- "*" Guest : "manages racers"
+Race "1" o-- "*" Gokart : "manages karts"
 
-TrackLead ..> Guest : uses
+TrackLead ..> Guest : "filters/validates"
 
 ' Notes
 note top of Guest: Abstract base class\nfor all guest types
 note top of Gokart: Abstract base class\nfor all gokart types
 note top of Map: Abstract base class\nfor all map types
+note right of Race: Manages the complete\nrace lifecycle
 
 @enduml

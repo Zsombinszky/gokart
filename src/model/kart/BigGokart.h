@@ -6,13 +6,15 @@
 
 class BigGokart : public Gokart {
 protected:
+    static constexpr int BASE_BIGGOKART_SPEED = 80;
+    static constexpr int BASE_BIGGOKART_POWER = 15;
     int _enginePower;
     bool _hasRollCage;
     bool _hasSportMode;
     EngineType _engineType;
 
 public:
-    explicit BigGokart(std::string serial, int speed = 80, int power = 15, bool sportMode = true,
+    explicit BigGokart(std::string serial, int speed = BASE_BIGGOKART_SPEED, int power = BASE_BIGGOKART_POWER, bool sportMode = true,
                        EngineType engine = EngineType::Gasoline)
             : Gokart(std::move(serial), speed, GokartType::Big),
               _enginePower(power), _hasSportMode(sportMode), _engineType(engine), _hasRollCage(true) {}
@@ -21,11 +23,11 @@ public:
 
     [[nodiscard]] std::string getSpecialFeatures() const override;
 
-    [[nodiscard]] bool hasRollCage() const;
+    [[nodiscard]] bool hasRollCage() const noexcept;
 
-    [[nodiscard]] bool hasSportMode() const;
+    [[nodiscard]] bool hasSportMode() const noexcept;
 
-    [[nodiscard]] EngineType getEngineType() const;
+    [[nodiscard]] EngineType getEngineType() const noexcept;
 
     [[nodiscard]] int getEnginePower() const;
 

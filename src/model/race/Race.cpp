@@ -11,10 +11,20 @@ void Race::startRace() {
               << _validatedGroup.size() << " racers!\n";
 }
 
+void Race::finishRace() {
+    _isStarted = false;
+    _assignments.clear();
+}
+
 void Race::addRacer(std::shared_ptr<Guest> racer) {
     if (_isStarted) {
         throw std::runtime_error("Cannot add racer after race started");
     }
+    if (!racer) throw std::invalid_argument("Invalid racer");
+    if (std::find(_racers.begin(), _racers.end(), racer) != _racers.end()) {
+        throw std::runtime_error("Racer already added");
+    }
+
     _racers.push_back(std::move(racer));
 }
 
@@ -49,6 +59,9 @@ void Race::addGokarts(const std::vector<std::shared_ptr<Gokart>> &karts) {
     if (_isStarted) {
         throw std::runtime_error("Cannot add karts after race started");
     }
+    if(karts.empty()){
+        throw std::invalid_argument("karts vector is empty! cant add karts");
+    }
     _availableGokarts.insert(_availableGokarts.end(), karts.begin(), karts.end());
 }
 
@@ -56,6 +69,8 @@ bool Race::assignGokart(const std::shared_ptr<Guest> &guest, GokartType preferre
     if (_isStarted) {
         throw std::runtime_error("Cannot assign karts after race started");
     }
+    if (!guest) throw std::invalid_argument("Invalid guest");
+
     for (size_t i = 0; i < _availableGokarts.size(); i++) {
         if (_availableGokarts[i]->getType() == preferredType) {
             _assignments[guest] = _availableGokarts[i];

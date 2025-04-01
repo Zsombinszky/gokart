@@ -57,7 +57,7 @@ race.startRace();
 
 ## 📊 Class Relationships
 
-- **Check out the gokart.puml**
+- **Check out the gokart.puml file**
 
 ## 🏆 Features
 
