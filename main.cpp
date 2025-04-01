@@ -55,7 +55,7 @@ std::vector<std::shared_ptr<Guest>> createGuests() {
     return guests;
 }
 
-std::vector<std::shared_ptr<Gokart>> createGokartFleet(int smallCount, int bigCount = 0, int raceCount = 0) {
+std::vector<std::shared_ptr<Gokart>> createGokartFleet(int smallCount, int bigCount, int raceCount) {
     std::vector<std::shared_ptr<Gokart>> fleet;
 
     for (int i = 1; i <= smallCount; ++i) {
@@ -76,77 +76,98 @@ std::vector<std::shared_ptr<Gokart>> createGokartFleet(int smallCount, int bigCo
     return fleet;
 }
 
+void printRaceHeader(Race &race) {
+    std::cout << "=== Race Setup ===" << std::endl;
+    std::cout << "Track: " << race.getMap()->getName() << std::endl;
+    std::cout << "Track Lead: " << race.getTrackLead().getName() << std::endl;
+    std::cout << "Total Racers: " << race.getRacers().size() << std::endl;
+    std::cout << "Available Karts: " << race.getAvailableGokarts().size() << std::endl;
+}
+
+void printGroupDetails(std::vector<std::shared_ptr<Guest>> &group) {
+    std::cout << "\n Group Members:" << std::endl;
+    for (const auto &guest: group) {
+        std::cout << "- " << guest->getNickName()
+                  << " (Age: " << guest->getAge()
+                  << ", Skill: " << toString(guest->getSkillLevel()) << ")" << std::endl;
+    }
+    std::cout << "\n=== Group Created ===" << std::endl;
+    std::cout << "Group Size: " << group.size() << std::endl;
+}
+
+void equipSafetyGear(std::vector<std::shared_ptr<Guest>> &group) {
+    for (const auto &guest: group) {
+        guest->setHasMaskOn(true);
+        guest->setHasHelmetOn(true);
+    }
+}
+
+void assignKartsToGroup(std::vector<std::shared_ptr<Guest>> &group, Race &race) {
+    std::cout << "\n=== Kart Assignments ===" << std::endl;
+    for (const auto &guest: group) {
+        bool assigned = race.assignGokart(guest, GokartType::Small);
+        std::cout << guest->getNickName()
+                  << (assigned ? " got a kart" : " no kart available") << "\n";
+    }
+}
+
+void printKartFeatures(const std::map<std::shared_ptr<Guest>, std::shared_ptr<Gokart>> &assignments) {
+    std::cout << "\n=== Kart Features ===" << std::endl;
+    for (const auto &[guest, gokart]: assignments) {
+        std::cout << guest->getNickName() << toString(gokart->getType()) << " gokart: "
+                  << gokart->getSpecialFeatures() << std::endl;
+    }
+}
+
+bool validateGroup(const TrackLead &lead, const std::vector<std::shared_ptr<Guest>> &group) {
+    std::cout << "\n=== Safety Validation ===" << std::endl;
+    bool allValid = true;
+    for (const auto &guest: group) {
+        if (!lead.validateGuest(guest)) {
+            std::cout << guest->getNickName()
+                      << " missing safety gear\n";
+            allValid = false;
+        }
+    }
+    return allValid;
+}
+
 void runSimulationForChildGuestsAndBeginnerMap() {
     try {
         auto generatedGuests = createGuests();
         TrackLead lead("Mr Anderson");
+
         auto beginnerMap = std::make_shared<BeginnerMap>("Rainbow Raceway");
         Race race(beginnerMap, lead);
-        auto karts = createGokartFleet(beginnerMap->getMaxRacers());
+
+        auto karts = createGokartFleet(beginnerMap->getMaxRacers(), 0, 0);
         race.addGokarts(karts);
+
         for (const auto &guest: generatedGuests) {
             race.addRacer(guest);
         }
 
-        std::cout << "=== Race Setup ===" << std::endl;
-        std::cout << "Track: " << race.getMap()->getName() << std::endl;
-        std::cout << "Track Lead: " << race.getTrackLead().getName() << std::endl;
-        std::cout << "Total Racers: " << race.getRacers().size() << std::endl;
-        std::cout << "Available Karts: " << race.getAvailableGokarts().size() << std::endl;
+        printRaceHeader(race);
 
         int maxRacers = race.getMap()->getMaxRacers();
         auto beginnerGroup = lead.createGroupBySkill(race.getRacers(), SkillLevel::Beginner, maxRacers);
 
-        std::cout << "\nBeginner Group Members:" << std::endl;
-        for (const auto &guest: beginnerGroup) {
-            std::cout << "- " << guest->getNickName()
-                      << " (Age: " << guest->getAge()
-                      << ", Skill: " << toString(guest->getSkillLevel()) << ")" << std::endl;
+        printGroupDetails(beginnerGroup);
 
-            guest->setHasMaskOn(true);
-            guest->setHasHelmetOn(true);
-        }
-
-        std::cout << "\n=== Group Created ===" << std::endl;
-        std::cout << "Beginner Group Size: " << beginnerGroup.size() << std::endl;
+        equipSafetyGear(beginnerGroup);
 
         race.performMaintenanceOnAllGokarts();
 
-        std::cout << "\n=== Gokart Assignments ===" << std::endl;
-        for (const auto &guest: beginnerGroup) {
-            if (race.assignGokart(guest, GokartType::Small)) {
-                std::cout << "Assigned " << guest->getFullName() << " to a SmallGokart" << std::endl;
-            } else {
-                std::cout << "Failed to assign gokart to " << guest->getFullName() << std::endl;
-            }
-        }
+        assignKartsToGroup(beginnerGroup, race);
 
-        std::cout << "\n=== Gokart Features ===" << std::endl;
-        for (const auto &[guest, gokart]: race.getAssignments()) {
-            std::cout << guest->getFullName() << "'s gokart: "
-                      << gokart->getSpecialFeatures() << std::endl;
-        }
+        printKartFeatures(race.getAssignments());
 
-        bool allValid = true;
-        for (const auto &guest: beginnerGroup) {
-            if (!lead.validateGuest(guest)) {
-                std::cout << "Validation failed for: " << guest->getFullName()
-                          << " (Mask: " << guest->getMaskOn()
-                          << ", Helmet: " << guest->getHelmetOn() << ")" << std::endl;
-                allValid = false;
-            }
-        }
-
-        if (allValid) {
+        if (validateGroup(lead, beginnerGroup)) {
             race.setValidatedGroup(beginnerGroup);
-            std::cout << "\nValidated group ready for race!" << std::endl;
-        } else {
-            std::cout << "\nGroup validation failed - missing safety equipment!" << std::endl;
-        }
-
-        if (!race.isStarted()) {
             race.startRace();
-            std::cout << "Race started successfully!" << std::endl;
+            std::cout << "\nRace started successfully!\n";
+        } else {
+            std::cout << "\nCannot start race - safety violations!\n";
         }
     } catch (const std::exception &e) {
         std::cerr << "Simulation error: " << e.what() << std::endl;
@@ -156,6 +177,5 @@ void runSimulationForChildGuestsAndBeginnerMap() {
 int main() {
     std::cout << "=== Gokart Racing Simulation ===" << std::endl;
     runSimulationForChildGuestsAndBeginnerMap();
-
     return 0;
 }
