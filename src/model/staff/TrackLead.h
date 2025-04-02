@@ -13,7 +13,7 @@ private:
     bool _hasThreeFlag;
 
 public:
-    TrackLead(std::string name, bool aidKit = true, bool threeFlag = true)
+    explicit TrackLead(std::string name, bool aidKit = true, bool threeFlag = true)
             : _name(std::move(name)), _hasAidkit(aidKit), _hasThreeFlag(threeFlag) {}
 
     [[nodiscard]] std::string getName() const noexcept { return _name; }

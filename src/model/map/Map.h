@@ -11,11 +11,11 @@ protected:
     MapDifficulty _difficulty;
     int _maxRacers;
 
+    virtual ~Map() = default;
+
 public:
     Map(std::string name, MapDifficulty difficulty, int maxRacers)
             : _name(std::move(name)), _difficulty(difficulty), _maxRacers(maxRacers) {}
-
-    virtual ~Map() = default;
 
     [[nodiscard]] virtual std::vector<std::string> getCheckpoints() const = 0;
 

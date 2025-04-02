@@ -11,13 +11,19 @@
 
 class Guest;
 
+using GuestPtr = std::shared_ptr<Guest>;
+using GokartPtr = std::shared_ptr<Gokart>;
+using GuestVec = std::vector<GuestPtr>;
+using GokartVec = std::vector<GokartPtr>;
+using AssignmentMap = std::map<GuestPtr, GokartPtr>;
+
 class Race {
 private:
     std::shared_ptr<Map> _map;
-    std::vector<std::shared_ptr<Guest>> _racers;
-    std::vector<std::shared_ptr<Guest>> _validatedGroup;
-    std::vector<std::shared_ptr<Gokart>> _availableGokarts;
-    std::map<std::shared_ptr<Guest>, std::shared_ptr<Gokart>> _assignments;
+    GuestVec _racers;
+    GuestVec _validatedGroup;
+    GokartVec _availableGokarts;
+    AssignmentMap _assignments;
     TrackLead _trackLead;
     bool _isStarted;
 
@@ -25,21 +31,21 @@ public:
     Race(std::shared_ptr<Map> map, TrackLead lead)
             : _map(std::move(map)), _trackLead(std::move(lead)), _isStarted(false) {}
 
-    void addGokarts(const std::vector<std::shared_ptr<Gokart>> &gokarts);
+    void addGokarts(const GokartVec &gokarts);
 
-    bool assignGokart(const std::shared_ptr<Guest> &guest, GokartType preferredType);
+    bool assignGokart(const GuestPtr &guest, GokartType preferredType);
 
-    void performMaintenanceOnAllGokarts();
+    void performMaintenanceOnAssignedGokarts();
 
     void startRace();
 
     void finishRace();
 
-    void addRacer(std::shared_ptr<Guest> racer);
+    void addRacer(GuestPtr racer);
 
     void removeRacer(const std::string &name);
 
-    void setValidatedGroup(const std::vector<std::shared_ptr<Guest>> &group);
+    void setValidatedGroup(const GuestVec &group);
 
     void clearValidatedGroup();
 
@@ -53,7 +59,7 @@ public:
 
     [[nodiscard]] bool isStarted() const { return _isStarted; }
 
-    [[nodiscard]] std::vector<std::shared_ptr<Gokart>> getAvailableGokarts() const {
+    [[nodiscard]] GokartVec getAvailableGokarts() const {
         return _availableGokarts;
     };
 

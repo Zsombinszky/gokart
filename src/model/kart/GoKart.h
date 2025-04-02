@@ -13,11 +13,12 @@ protected:
     GokartType type;
     int numberOfWheels = DEFAULT_WHEEL_COUNT;
 
+    virtual ~Gokart() = default;
+
+
 public:
     Gokart(std::string serial, int speed, GokartType type)
             : serialNumber(std::move(serial)), maxSpeed(speed), type(type) {}
-
-    virtual ~Gokart() = default;
 
     virtual void performMaintenance() = 0;
 

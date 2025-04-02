@@ -129,6 +129,7 @@ bool validateGroup(const TrackLead &lead, const std::vector<std::shared_ptr<Gues
             allValid = false;
         }
     }
+    std::cout << "Every guest of the group successfully validated!" << std::endl;
     return allValid;
 }
 
@@ -156,7 +157,7 @@ void runSimulationForChildGuestsAndBeginnerMap() {
 
         equipSafetyGear(beginnerGroup);
 
-        race.performMaintenanceOnAllGokarts();
+        race.performMaintenanceOnAssignedGokarts();
 
         assignKartsToGroup(beginnerGroup, race);
 

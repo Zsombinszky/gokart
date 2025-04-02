@@ -14,9 +14,10 @@ void Race::startRace() {
 void Race::finishRace() {
     _isStarted = false;
     _assignments.clear();
+    clearValidatedGroup();
 }
 
-void Race::addRacer(std::shared_ptr<Guest> racer) {
+void Race::addRacer(GuestPtr racer) {
     if (_isStarted) {
         throw std::runtime_error("Cannot add racer after race started");
     }
@@ -41,7 +42,7 @@ void Race::removeRacer(const std::string &name) {
     );
 }
 
-void Race::setValidatedGroup(const std::vector<std::shared_ptr<Guest>> &group) {
+void Race::setValidatedGroup(const GuestVec &group) {
     if (_isStarted) {
         throw std::runtime_error("Cannot set group after race started");
     }
@@ -55,36 +56,38 @@ void Race::clearValidatedGroup() {
     _validatedGroup.clear();
 }
 
-void Race::addGokarts(const std::vector<std::shared_ptr<Gokart>> &karts) {
+void Race::addGokarts(const GokartVec &karts) {
     if (_isStarted) {
         throw std::runtime_error("Cannot add karts after race started");
     }
-    if(karts.empty()){
+    if (karts.empty()) {
         throw std::invalid_argument("karts vector is empty! cant add karts");
     }
     _availableGokarts.insert(_availableGokarts.end(), karts.begin(), karts.end());
 }
 
-bool Race::assignGokart(const std::shared_ptr<Guest> &guest, GokartType preferredType) {
+bool Race::assignGokart(const GuestPtr &guest, GokartType preferredType) {
     if (_isStarted) {
         throw std::runtime_error("Cannot assign karts after race started");
     }
     if (!guest) throw std::invalid_argument("Invalid guest");
+    if (!guest->canDrive(preferredType)) {
+        throw std::runtime_error("Guest cant drive the preferred type kart!");
+    }
 
     for (size_t i = 0; i < _availableGokarts.size(); i++) {
-        if (_availableGokarts[i]->getType() == preferredType) {
-            _assignments[guest] = _availableGokarts[i];
-            _availableGokarts.erase(_availableGokarts.begin() + i);
-            return true;
+        const auto gokart = _availableGokarts[i];
+        if (gokart->getType() != preferredType) {
+            continue;
         }
+        _assignments[guest] = _availableGokarts[i];
+        _availableGokarts.erase(_availableGokarts.begin() + i);
+        return true;
     }
     return false;
 }
 
-void Race::performMaintenanceOnAllGokarts() {
-    for (auto &gokart: _availableGokarts) {
-        gokart->performMaintenance();
-    }
+void Race::performMaintenanceOnAssignedGokarts() {
     for (auto &[guest, gokart]: _assignments) {
         gokart->performMaintenance();
     }
