@@ -55,10 +55,6 @@ race.addRacer(child);
 race.startRace();
 ```
 
-## 📊 Class Relationships
-
-- **Check out the gokart.puml file**
-
 ## 🏆 Features
 
 - ✅ Realistic race simulation
@@ -69,10 +65,42 @@ race.startRace();
 
 ---
 
+## 📊 Class Relationships
+
+- **Check out the gokart.puml file**
+
+## 🧩 **Planned Classes and Features**
+
+Here is an overview of the new planned classes and their responsibilities:
+
+| Class         | Description                          | Features                                                             |
+|---------------|--------------------------------------|----------------------------------------------------------------------|
+| `TeenGuest`   | Guest class for 12-18 year olds      | Height requirement, skill level, vehicle selection, parental consent |
+| `StaffMember` | Abstract class for staff members     | Name, ID, working hours, task assignment                             |
+| `Cashier`     | A staff member handling ticket sales | Manage ticket inventory, process payments                            |
+| `Ticket`      | Class for ticket management          | Price, type, validity, and guest purchasing the ticket               |
+
+### 🧑‍🤝‍🧑 **Guest System Expansion**
+
+- **TeenGuest** class for participants aged 12-18, inheriting from `Guest`.
+    - Features: height requirement, skill levels (Beginner to Intermediate), vehicle choice, optional parental consent.
+
+### 🧑‍💼 **Staff Management System**
+
+- **StaffMember**: Base class for all staff roles (e.g., TrackLead, Cashier).
+    - Features: name, ID, working hours, task assignment.
+- **TrackLead**: Oversees race preparations and guest eligibility.
+- **Cashier**: Manages ticket sales and inventory.
+
+### 🎟️ **Tickets & Sales System**
+
+- **Ticket**: Handles ticket info (price, type, validity).
+- **Ticket Purchase**: Guests can buy tickets from cashiers, including payment validation and race selection.
+
+---
+
+
 <div align="center">
   <h3>🚀 Start your engines! 🚀</h3>
   <img src="https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif" width="200">
 </div>
-
-
-
