@@ -69,6 +69,8 @@ race.startRace();
 
 - **Check out the gokart.puml file**
 
+---
+
 ## 🧩 **Planned Classes and Features**
 
 Here is an overview of the new planned classes and their responsibilities:
