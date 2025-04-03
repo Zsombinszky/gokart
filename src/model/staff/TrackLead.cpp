@@ -5,6 +5,10 @@ std::vector<std::shared_ptr<Guest>> TrackLead::createGroupBySkill(
         const std::vector<std::shared_ptr<Guest>> &guests,
         SkillLevel skillLevel, int groupSize) {
 
+    if (guests.empty()) {
+        throw std::runtime_error("Guests list is empty");
+    }
+
     std::vector<std::shared_ptr<Guest>> group;
     group.reserve(groupSize > 0 ? groupSize : guests.size());
 
@@ -27,6 +31,10 @@ std::vector<std::shared_ptr<Guest>> TrackLead::createGroupBySkill(
 std::vector<std::shared_ptr<Guest>> TrackLead::createGroupByAgeRange(
         const std::vector<std::shared_ptr<Guest>> &guests,
         int minAge, int maxAge, int groupSize) {
+
+    if (guests.empty()) {
+        throw std::runtime_error("Guests list is empty");
+    }
 
     if (minAge > maxAge) {
         throw std::invalid_argument("Minimum age cannot exceed maximum age");
@@ -56,6 +64,10 @@ std::vector<std::shared_ptr<Guest>> TrackLead::createGroupByAgeRange(
 std::vector<std::shared_ptr<Guest>> TrackLead::createGroupByMaxSpeed(
         const std::vector<std::shared_ptr<Guest>> &guests,
         int minSpeed, int maxSpeed, int groupSize) {
+
+    if (guests.empty()) {
+        throw std::runtime_error("Guests list is empty");
+    }
 
     if (minSpeed > maxSpeed) {
         throw std::invalid_argument("Minimum speed cannot exceed maximum speed");

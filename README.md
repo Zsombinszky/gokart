@@ -23,7 +23,7 @@ A complete object-oriented simulation system for managing go-kart races, featuri
 
 | Type          | Max Speed | Features                      |
 |---------------|-----------|-------------------------------|
-| `SmallGokart` | 40 km/h   | Foam protection, funny honk   |
+| `SmallGokart` | 30 km/h   | Foam protection, funny honk   |
 | `BigGokart`   | 80 km/h   | Sport mode, roll cage         |
 | `RaceGokart`  | 100 km/h  | Turbo boost, overtake signals |
 
