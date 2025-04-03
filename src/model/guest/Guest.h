@@ -32,21 +32,21 @@ public:
 
     [[nodiscard]] virtual bool canDrive(GokartType type) const = 0;
 
-    [[nodiscard]] const std::string &getFullName() const;
+    [[nodiscard]] const std::string &getFullName() const noexcept;
 
-    [[nodiscard]] const std::string &getNickName() const;
+    [[nodiscard]] const std::string &getNickName() const noexcept;
 
-    [[nodiscard]] int getAge() const;
+    [[nodiscard]] int getAge() const noexcept;
 
-    [[nodiscard]] int getHeightInCentimeter() const;
+    [[nodiscard]] int getHeightInCentimeter() const noexcept;
 
-    [[nodiscard]] SkillLevel getSkillLevel() const;
+    [[nodiscard]] SkillLevel getSkillLevel() const noexcept;
 
-    [[nodiscard]] int getMaximumSpeedLevel() const;
+    [[nodiscard]] int getMaximumSpeedLevel() const noexcept;
 
-    [[nodiscard]] bool getMaskOn() const;
+    [[nodiscard]] bool getMaskOn() const noexcept;
 
-    [[nodiscard]] bool getHelmetOn() const;
+    [[nodiscard]] bool getHelmetOn() const noexcept;
 
     void setNickName(std::string nickName);
 

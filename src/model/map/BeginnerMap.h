@@ -7,7 +7,7 @@
 class BeginnerMap : public Map {
 private:
     static constexpr int BEGINNER_MAX_RACERS = 6;
-    static constexpr int BEGINNER_SPEED_LIMIT = 20;
+    static constexpr int BEGINNER_SPEED_LIMIT = 30;
     bool _hasSafetyBarriers;
     int _maxSpeedLimit;
     static const std::vector<std::string> DEFAULT_CHECKPOINTS;

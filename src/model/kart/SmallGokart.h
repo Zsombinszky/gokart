@@ -5,7 +5,7 @@
 
 class SmallGokart final : public Gokart {
 private:
-    static constexpr int BASE_SMALLGOKART_SPEED = 40;
+    static constexpr int BASE_SMALLGOKART_SPEED = 10;
     bool _hasExtraFoamProtection;
     bool _hasFluffySteeringWheel;
     bool _hasFunnyHonk;

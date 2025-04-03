@@ -27,35 +27,35 @@ void Guest::updateMaximumSpeed() {
     }
 }
 
-const std::string &Guest::getFullName() const {
+const std::string &Guest::getFullName() const noexcept {
     return fullName;
 }
 
-const std::string &Guest::getNickName() const {
+const std::string &Guest::getNickName() const noexcept {
     return nickName;
 }
 
-int Guest::getAge() const {
+int Guest::getAge() const noexcept {
     return age;
 }
 
-int Guest::getHeightInCentimeter() const {
+int Guest::getHeightInCentimeter() const noexcept {
     return heightInCentimeter;
 }
 
-SkillLevel Guest::getSkillLevel() const {
+SkillLevel Guest::getSkillLevel() const noexcept {
     return skillLevel;
 }
 
-int Guest::getMaximumSpeedLevel() const {
+int Guest::getMaximumSpeedLevel() const noexcept {
     return maximumSpeedLevel;
 }
 
-bool Guest::getMaskOn() const {
+bool Guest::getMaskOn() const noexcept {
     return hasMaskOn;
 }
 
-bool Guest::getHelmetOn() const {
+bool Guest::getHelmetOn() const noexcept {
     return hasHelmetOn;
 }
 

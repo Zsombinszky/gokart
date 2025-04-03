@@ -7,7 +7,7 @@ void Race::startRace() {
         throw std::runtime_error("Cannot start race - no validated group");
     }
     _isStarted = true;
-    std::cout << "Race on " << _map->getName() << " has started with "
+    std::cout << "\nRace on " << _map->getName() << " has starting with "
               << _validatedGroup.size() << " racers!\n";
 }
 

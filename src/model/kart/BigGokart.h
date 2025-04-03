@@ -6,8 +6,8 @@
 
 class BigGokart : public Gokart {
 protected:
-    static constexpr int BASE_BIGGOKART_SPEED = 80;
-    static constexpr int BASE_BIGGOKART_POWER = 15;
+    static constexpr int BASE_BIGGOKART_SPEED = 20;
+    static constexpr int BASE_BIGGOKART_POWER = 30;
     int _enginePower;
     bool _hasRollCage;
     bool _hasSportMode;

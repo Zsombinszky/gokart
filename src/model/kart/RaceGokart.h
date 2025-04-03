@@ -5,8 +5,8 @@
 
 class RaceGokart final : public BigGokart {
 private:
-    static constexpr int BASE_RACEGOKART_SPEED = 100;
-    static constexpr int BASE_RACEGOKART_POWER = 25;
+    static constexpr int BASE_RACEGOKART_SPEED = 30;
+    static constexpr int BASE_RACEGOKART_POWER = 50;
     bool _hasTurboBoost;
     bool _hasOvertakeSign;
 

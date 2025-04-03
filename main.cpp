@@ -111,11 +111,22 @@ void assignKartsToGroup(std::vector<std::shared_ptr<Guest>> &group, Race &race) 
     }
 }
 
+void adjustKartMaxSpeedByGuestMaximumSpeedLevel(
+        const std::map<std::shared_ptr<Guest>, std::shared_ptr<Gokart>> &assignments) {
+    std::cout << "\n=== Raise gokart speed for race  ===" << std::endl;
+    for (const auto &[guest, gokart]: assignments) {
+        const int maxSpeed = guest->getMaximumSpeedLevel() * 10;
+        gokart->setMaxSpeed(maxSpeed);
+        std::cout << "Kart" << gokart->getSerialNumber() << " max speed: " << gokart->getMaxSpeed() << std::endl;
+    }
+}
+
 void printKartFeatures(const std::map<std::shared_ptr<Guest>, std::shared_ptr<Gokart>> &assignments) {
     std::cout << "\n=== Kart Features ===" << std::endl;
     for (const auto &[guest, gokart]: assignments) {
         std::cout << guest->getNickName() << toString(gokart->getType()) << " gokart: "
-                  << gokart->getSpecialFeatures() << std::endl;
+                  << gokart->getSpecialFeatures() << ", pre-race speed: " << gokart->getMaxSpeed()
+                  << std::endl;
     }
 }
 
@@ -141,7 +152,7 @@ void runSimulationForChildGuestsAndBeginnerMap() {
         auto beginnerMap = std::make_shared<BeginnerMap>("Rainbow Raceway");
         Race race(beginnerMap, lead);
 
-        auto karts = createGokartFleet(beginnerMap->getMaxRacers(), 0, 0);
+        auto karts = createGokartFleet(beginnerMap->getMaxRacers(), 2, 2);
         race.addGokarts(karts);
 
         for (const auto &guest: generatedGuests) {
@@ -165,6 +176,7 @@ void runSimulationForChildGuestsAndBeginnerMap() {
 
         if (validateGroup(lead, beginnerGroup)) {
             race.setValidatedGroup(beginnerGroup);
+            adjustKartMaxSpeedByGuestMaximumSpeedLevel(race.getAssignments());
             race.startRace();
             std::cout << "\nRace started successfully!\n";
         } else {

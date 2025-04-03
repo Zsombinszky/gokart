@@ -26,9 +26,13 @@ public:
 
     [[nodiscard]] std::string getSerialNumber() const noexcept { return serialNumber; }
 
-    [[nodiscard]] int getMaxSpeed() const { return maxSpeed; }
+    [[nodiscard]] int getMaxSpeed() const noexcept { return maxSpeed; }
 
-    [[nodiscard]] GokartType getType() const { return type; }
+    [[nodiscard]] GokartType getType() const noexcept { return type; }
+
+    void setMaxSpeed(int speed) {
+        maxSpeed = speed;
+    }
 };
 
 #endif // GOKART_GOKART_H
